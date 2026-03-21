@@ -1,0 +1,71 @@
+import { useState, useCallback, useRef } from "react";
+
+export function useSpeechRecognition() {
+  const [isListening, setIsListening] = useState(false);
+  const [transcript, setTranscript] = useState("");
+  const recognitionRef = useRef<any>(null);
+
+  const startListening = useCallback((lang: string) => {
+    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    if (!SpeechRecognition) return;
+
+    const recognition = new SpeechRecognition();
+    recognition.lang = getLangCode(lang);
+    recognition.interimResults = true;
+    recognition.continuous = true;
+
+    recognition.onresult = (e: any) => {
+      let t = "";
+      for (let i = 0; i < e.results.length; i++) {
+        t += e.results[i][0].transcript;
+      }
+      setTranscript(t);
+    };
+
+    recognition.onend = () => setIsListening(false);
+    recognition.onerror = () => setIsListening(false);
+
+    recognitionRef.current = recognition;
+    recognition.start();
+    setIsListening(true);
+    setTranscript("");
+  }, []);
+
+  const stopListening = useCallback(() => {
+    recognitionRef.current?.stop();
+    setIsListening(false);
+  }, []);
+
+  return { isListening, transcript, startListening, stopListening, setTranscript };
+}
+
+export function speakText(text: string, lang: string) {
+  const cleanText = text
+    .replace(/📝\s*\*\*Correções:\*\*[\s\S]*/g, "")
+    .replace(/~~[^~]+~~/g, "")
+    .replace(/\*\*([^*]+)\*\*/g, "$1")
+    .replace(/[#*_~`]/g, "")
+    .trim();
+
+  if (!cleanText) return;
+
+  window.speechSynthesis.cancel();
+  const utterance = new SpeechSynthesisUtterance(cleanText);
+  utterance.lang = getLangCode(lang);
+  utterance.rate = 0.9;
+  window.speechSynthesis.speak(utterance);
+}
+
+function getLangCode(lang: string): string {
+  const map: Record<string, string> = {
+    English: "en-US",
+    Spanish: "es-ES",
+    French: "fr-FR",
+    German: "de-DE",
+    Italian: "it-IT",
+    Japanese: "ja-JP",
+    Korean: "ko-KR",
+    "Mandarin Chinese": "zh-CN",
+  };
+  return map[lang] || "en-US";
+}
