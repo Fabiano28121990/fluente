@@ -12,7 +12,7 @@ export function useSpeechRecognition() {
     const recognition = new SpeechRecognition();
     recognition.lang = getLangCode(lang);
     recognition.interimResults = true;
-    recognition.continuous = true;
+    recognition.continuous = false;
 
     recognition.onresult = (e: any) => {
       let finalText = "";
@@ -29,9 +29,8 @@ export function useSpeechRecognition() {
     };
 
     recognition.onend = () => {
-      if (recognitionRef.current === recognition) {
-        try { recognition.start(); } catch { setIsListening(false); }
-      }
+      recognitionRef.current = null;
+      setIsListening(false);
     };
     recognition.onerror = (e: any) => {
       if (e.error === 'no-speech' || e.error === 'aborted') return;
