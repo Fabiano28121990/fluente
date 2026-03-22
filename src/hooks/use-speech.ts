@@ -45,7 +45,9 @@ export function useSpeechRecognition() {
   }, []);
 
   const stopListening = useCallback(() => {
-    recognitionRef.current?.stop();
+    const recognition = recognitionRef.current;
+    recognitionRef.current = null;
+    recognition?.stop();
     setIsListening(false);
   }, []);
 
