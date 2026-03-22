@@ -121,12 +121,15 @@ export default function Chat() {
     sendMessage(input);
   };
 
+  const isSpeaking = botState === "speaking";
+
   const toggleVoice = () => {
+    if (isSpeaking) return; // block mic while bot is speaking
     if (isListening) {
       stopListening();
       if (transcript.trim()) sendMessage(transcript);
     } else {
-      startListening(convo?.settings.language || "English");
+      startListening(convo?.settings.language || "Portuguese");
     }
   };
 
