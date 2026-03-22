@@ -12,7 +12,7 @@ export function useSpeechRecognition() {
     const recognition = new SpeechRecognition();
     recognition.lang = getLangCode(lang);
     recognition.interimResults = true;
-    recognition.continuous = true;
+    recognition.continuous = false;
 
     recognition.onresult = (e: any) => {
       let finalText = "";
