@@ -26,6 +26,12 @@ serve(async (req) => {
       interview: "You are in a job interview. Ask and answer professional questions.",
       travel: "You are traveling. Talk about directions, hotels, sightseeing, transportation.",
       daily: "Have a casual everyday conversation about life, hobbies, weather, plans.",
+      shopping: "You are shopping. Talk about prices, sizes, colors, bargaining, and paying.",
+      doctor: "You are at a doctor's appointment. Talk about symptoms, health, and medical advice.",
+      school: "You are at school or university. Talk about classes, exams, teachers, and study topics.",
+      phone: "You are on a phone call. Practice phone etiquette, leaving messages, and customer service.",
+      party: "You are at a social event or party. Practice introductions, small talk, and socializing.",
+      bank: "You are at a bank. Talk about accounts, transfers, exchange rates, and financial services.",
       free: "Have a free conversation about any topic the user wants.",
     };
 

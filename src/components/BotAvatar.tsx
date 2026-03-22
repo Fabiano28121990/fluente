@@ -1,12 +1,19 @@
 import { cn } from "@/lib/utils";
+import botImg from "@/assets/bot-avatar.png";
 
 type BotState = "idle" | "thinking" | "speaking" | "listening";
 
 export function BotAvatar({ state = "idle", size = "md" }: { state?: BotState; size?: "sm" | "md" | "lg" }) {
   const sizeClasses = {
-    sm: "h-8 w-8 text-lg",
-    md: "h-12 w-12 text-2xl",
-    lg: "h-20 w-20 text-4xl",
+    sm: "h-8 w-8",
+    md: "h-12 w-12",
+    lg: "h-20 w-20",
+  };
+
+  const ringSize = {
+    sm: "h-10 w-10",
+    md: "h-14 w-14",
+    lg: "h-24 w-24",
   };
 
   return (
@@ -14,24 +21,24 @@ export function BotAvatar({ state = "idle", size = "md" }: { state?: BotState; s
       {(state === "thinking" || state === "speaking" || state === "listening") && (
         <div
           className={cn(
-            "absolute inset-0 rounded-full animate-pulse-ring",
-            state === "thinking" && "bg-primary/30",
-            state === "speaking" && "bg-accent/30",
-            state === "listening" && "bg-destructive/30"
+            "absolute rounded-full animate-pulse",
+            ringSize[size],
+            state === "thinking" && "bg-primary/20",
+            state === "speaking" && "bg-accent/20",
+            state === "listening" && "bg-destructive/20"
           )}
-          style={{ transform: "scale(1.3)" }}
         />
       )}
-      <div
+      <img
+        src={botImg}
+        alt="Lingua bot"
         className={cn(
-          "relative flex items-center justify-center rounded-full bg-primary text-primary-foreground transition-all duration-300",
+          "relative rounded-full object-cover transition-all duration-300",
           sizeClasses[size],
-          state === "speaking" && "bg-accent text-accent-foreground",
-          state === "listening" && "bg-destructive"
+          state === "speaking" && "ring-2 ring-accent",
+          state === "listening" && "ring-2 ring-destructive"
         )}
-      >
-        🤖
-      </div>
+      />
     </div>
   );
 }

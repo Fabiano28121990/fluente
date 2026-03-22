@@ -22,6 +22,12 @@ export const SCENARIOS = [
   { id: "interview", label: "Entrevista", icon: "💼", desc: "Entrevista de emprego" },
   { id: "travel", label: "Viagem", icon: "🗺️", desc: "Direções, hotéis e turismo" },
   { id: "daily", label: "Dia a dia", icon: "☀️", desc: "Conversas casuais" },
+  { id: "shopping", label: "Compras", icon: "🛍️", desc: "Lojas, preços e negociação" },
+  { id: "doctor", label: "Médico", icon: "🏥", desc: "Consultas e sintomas" },
+  { id: "school", label: "Escola", icon: "🎒", desc: "Aulas, provas e colegas" },
+  { id: "phone", label: "Telefone", icon: "📞", desc: "Ligações e atendimento" },
+  { id: "party", label: "Festa", icon: "🎉", desc: "Eventos sociais e apresentações" },
+  { id: "bank", label: "Banco", icon: "🏦", desc: "Conta, transferências e câmbio" },
   { id: "free", label: "Conversa livre", icon: "💬", desc: "Qualquer assunto" },
 ] as const;
 
