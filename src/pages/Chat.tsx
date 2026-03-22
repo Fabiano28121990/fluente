@@ -24,7 +24,7 @@ export default function Chat() {
   const [botState, setBotState] = useState<"idle" | "thinking" | "speaking" | "listening">("idle");
   const scrollRef = useRef<HTMLDivElement>(null);
   const abortRef = useRef<AbortController | null>(null);
-  const { isListening, transcript, startListening, stopListening, setTranscript } = useSpeechRecognition();
+  const { isListening, transcript, startListening, stopListening, setTranscript, finalTranscript } = useSpeechRecognition();
 
   useEffect(() => {
     const all = getConversations();
@@ -40,6 +40,13 @@ export default function Chat() {
   useEffect(() => {
     if (transcript) setInput(transcript);
   }, [transcript]);
+
+  // Auto-send when mic stops and there's a final transcript
+  useEffect(() => {
+    if (!isListening && finalTranscript.trim()) {
+      sendMessage(finalTranscript);
+    }
+  }, [isListening, finalTranscript]);
 
   useEffect(() => {
     if (isListening) setBotState("listening");
@@ -124,10 +131,9 @@ export default function Chat() {
   const isSpeaking = botState === "speaking";
 
   const toggleVoice = () => {
-    if (isSpeaking) return; // block mic while bot is speaking
+    if (isSpeaking) return;
     if (isListening) {
       stopListening();
-      if (transcript.trim()) sendMessage(transcript);
     } else {
       startListening(convo?.settings.language || "Portuguese");
     }

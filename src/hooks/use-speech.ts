@@ -3,6 +3,7 @@ import { useState, useCallback, useRef } from "react";
 export function useSpeechRecognition() {
   const [isListening, setIsListening] = useState(false);
   const [transcript, setTranscript] = useState("");
+  const [finalTranscript, setFinalTranscript] = useState("");
   const recognitionRef = useRef<any>(null);
 
   const startListening = useCallback((lang: string) => {
@@ -26,6 +27,7 @@ export function useSpeechRecognition() {
         }
       }
       setTranscript(finalText + interimText);
+      if (finalText) setFinalTranscript(finalText);
     };
 
     recognition.onend = () => {
@@ -38,6 +40,7 @@ export function useSpeechRecognition() {
     };
 
     recognitionRef.current = recognition;
+    setFinalTranscript("");
     recognition.start();
     setIsListening(true);
     setTranscript("");
@@ -50,7 +53,7 @@ export function useSpeechRecognition() {
     setIsListening(false);
   }, []);
 
-  return { isListening, transcript, startListening, stopListening, setTranscript };
+  return { isListening, transcript, finalTranscript, startListening, stopListening, setTranscript };
 }
 
 export function speakText(text: string, lang: string) {
