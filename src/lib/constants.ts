@@ -1,4 +1,5 @@
 export const LANGUAGES = [
+  { id: "Portuguese", label: "Português (BR)", flag: "🇧🇷" },
   { id: "English", label: "Inglês", flag: "🇺🇸" },
   { id: "Spanish", label: "Espanhol", flag: "🇪🇸" },
   { id: "French", label: "Francês", flag: "🇫🇷" },

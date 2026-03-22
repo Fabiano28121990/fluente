@@ -73,6 +73,7 @@ export function speakText(text: string, lang: string) {
 
 function getLangCode(lang: string): string {
   const map: Record<string, string> = {
+    Portuguese: "pt-BR",
     English: "en-US",
     Spanish: "es-ES",
     French: "fr-FR",
@@ -82,5 +83,5 @@ function getLangCode(lang: string): string {
     Korean: "ko-KR",
     "Mandarin Chinese": "zh-CN",
   };
-  return map[lang] || "en-US";
+  return map[lang] || "pt-BR";
 }

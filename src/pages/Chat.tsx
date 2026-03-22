@@ -200,6 +200,7 @@ export default function Chat() {
             variant={isListening ? "destructive" : "outline"}
             size="icon"
             onClick={toggleVoice}
+            disabled={isSpeaking}
             className="shrink-0 transition-all duration-200 active:scale-95"
           >
             {isListening ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
