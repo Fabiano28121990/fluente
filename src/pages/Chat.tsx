@@ -41,6 +41,13 @@ export default function Chat() {
     if (transcript) setInput(transcript);
   }, [transcript]);
 
+  // Auto-send when mic stops and there's a final transcript
+  useEffect(() => {
+    if (!isListening && finalTranscript.trim()) {
+      sendMessage(finalTranscript);
+    }
+  }, [isListening, finalTranscript]);
+
   useEffect(() => {
     if (isListening) setBotState("listening");
     else if (!isLoading) setBotState("idle");
