@@ -131,10 +131,9 @@ export default function Chat() {
   const isSpeaking = botState === "speaking";
 
   const toggleVoice = () => {
-    if (isSpeaking) return; // block mic while bot is speaking
+    if (isSpeaking) return;
     if (isListening) {
       stopListening();
-      if (transcript.trim()) sendMessage(transcript);
     } else {
       startListening(convo?.settings.language || "Portuguese");
     }
