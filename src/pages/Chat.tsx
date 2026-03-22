@@ -121,12 +121,15 @@ export default function Chat() {
     sendMessage(input);
   };
 
+  const isSpeaking = botState === "speaking";
+
   const toggleVoice = () => {
+    if (isSpeaking) return; // block mic while bot is speaking
     if (isListening) {
       stopListening();
       if (transcript.trim()) sendMessage(transcript);
     } else {
-      startListening(convo?.settings.language || "English");
+      startListening(convo?.settings.language || "Portuguese");
     }
   };
 
@@ -197,6 +200,7 @@ export default function Chat() {
             variant={isListening ? "destructive" : "outline"}
             size="icon"
             onClick={toggleVoice}
+            disabled={isSpeaking}
             className="shrink-0 transition-all duration-200 active:scale-95"
           >
             {isListening ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
