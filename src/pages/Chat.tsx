@@ -24,7 +24,7 @@ export default function Chat() {
   const [botState, setBotState] = useState<"idle" | "thinking" | "speaking" | "listening">("idle");
   const scrollRef = useRef<HTMLDivElement>(null);
   const abortRef = useRef<AbortController | null>(null);
-  const { isListening, transcript, startListening, stopListening, setTranscript } = useSpeechRecognition();
+  const { isListening, transcript, startListening, stopListening, setTranscript, finalTranscript } = useSpeechRecognition();
 
   useEffect(() => {
     const all = getConversations();
