@@ -15,15 +15,28 @@ export function useSpeechRecognition() {
     recognition.continuous = true;
 
     recognition.onresult = (e: any) => {
-      let t = "";
+      let finalText = "";
+      let interimText = "";
       for (let i = 0; i < e.results.length; i++) {
-        t += e.results[i][0].transcript;
+        const result = e.results[i];
+        if (result.isFinal) {
+          finalText += result[0].transcript;
+        } else {
+          interimText += result[0].transcript;
+        }
       }
-      setTranscript(t);
+      setTranscript(finalText + interimText);
     };
 
-    recognition.onend = () => setIsListening(false);
-    recognition.onerror = () => setIsListening(false);
+    recognition.onend = () => {
+      if (recognitionRef.current === recognition) {
+        try { recognition.start(); } catch { setIsListening(false); }
+      }
+    };
+    recognition.onerror = (e: any) => {
+      if (e.error === 'no-speech' || e.error === 'aborted') return;
+      setIsListening(false);
+    };
 
     recognitionRef.current = recognition;
     recognition.start();
